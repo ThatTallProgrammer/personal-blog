@@ -1,0 +1,42 @@
+#cloud-config
+
+yum_repos:
+  mysql-8.4-lts-community:
+    name: MySQL 8.4 LTS Community Server
+    baseurl: https://repo.mysql.com/yum/mysql-8.4-community/el/9/$basearch/
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+
+package_reboot_if_required: true
+package_update: true
+package_upgrade: true
+
+packages:
+  - nodejs22
+  - nginx
+  - mysql-server
+  - libatomic
+
+runcmd:
+  - npm -v
+  - node -v
+  - nginx -v
+  - rpm -qa | grep mysql-community-server
+  - export GHOST_USER=ghost-user
+  - export SITE_DIR=/var/www/worksonmymachine
+  - systemctl start mysqld
+  - systemctl start nginx
+  - npm install ghost-cli@latest -g
+  - adduser $GHOST_USER
+  - passwd --delete $GHOST_USER
+  - usermod -aG wheel $GHOST_USER
+  - mkdir -p $SITE_DIR
+  - 'chown $GHOST_USER:$GHOST_USER $SITE_DIR'
+  - chmod 775 $SITE_DIR
+  - |
+    su $GHOST_USER
+    cd $SITE_DIR
+    SHELL=/bin/bash HOME=/home/ghost-user USER=ghost-user npx -y get-pnpm next-12
+    source /home/ghost-user/.bashrc
+    chown -R $GHOST_USER:$GHOST_USER /home/$GHOST_USER 
