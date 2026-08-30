@@ -1,0 +1,24 @@
+#cloud-config
+
+yum_repos:
+  mysql-8.4-lts-community:
+    name: MySQL 8.4 LTS Community Server
+    baseurl: https://repo.mysql.com/yum/mysql-8.4-community/el/9/$basearch/
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+
+package_reboot_if_required: true
+package_update: true
+package_upgrade: true
+
+packages:
+  - nodejs24
+  - nginx
+  - mysql-server
+
+runcmd:
+  - npm -v
+  - node -v
+  - nginx -v
+  - rpm -qa | grep mysql-community-server
