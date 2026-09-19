@@ -40,3 +40,7 @@ runcmd:
     SHELL=/bin/bash HOME=/home/ghost-user USER=ghost-user npx -y get-pnpm next-12
     source /home/ghost-user/.bashrc
     chown -R $GHOST_USER:$GHOST_USER /home/$GHOST_USER 
+  
+# Need to add ghost install local
+# Need to add ghost config url "http://$(ec2-metadata --public-ipv4):2368"
+# Need to add ghost config server.host '0.0.0.0'
