@@ -1,8 +1,3 @@
-# TODO: 
-# - Create ASG
-# - Create User data 
-# 
-
 data "aws_vpc" "default" {
   default = true
 }
@@ -28,12 +23,10 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ghost" {
 }
 
 
-resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
+resource "aws_vpc_security_group_egress_rule" "allow_all_outbound" {
   security_group_id = aws_security_group.ghost_server.id
   cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 22
-  ip_protocol       = "tcp"
-  to_port           = 22
+  ip_protocol       = "-1"
 }
 
 
@@ -57,38 +50,6 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 
-data "aws_iam_policy_document" "ssm_permissions" {
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "ssm:GetServiceSetting",
-      "ssm:ResetServiceSetting",
-      "ssm:UpdateServiceSetting"
-    ]
-
-    resources = ["arn:aws:ssm:us-east-1:952835124770:servicesetting/ssm/managed-instance/default-ec2-instance-management-role"]
-  }
-
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "iam:PassRole"
-    ]
-
-    resources = ["arn:aws:iam::952835124770:role/service-role/AWSSystemsManagerDefaultEC2InstanceManagementRole"]
-  
-    condition {
-      test     = "StringEquals"
-      variable = "iam:PassedToService"
-
-      values = ["ssm.amazonaws.com"]
-    }
-  }
-}
-
-
 resource "aws_iam_role" "ghost_server" {
   name               = "ghost_server"
   path               = "/"
@@ -96,10 +57,9 @@ resource "aws_iam_role" "ghost_server" {
 }
 
 
-resource "aws_iam_role_policy" "ssm_access" {
-  name   = "ssm_access"
-  role   = aws_iam_role.ghost_server.id
-  policy = data.aws_iam_policy_document.ssm_permissions.json
+resource "aws_iam_role_policy_attachment" "ssm_policy_attach" {
+  role       = aws_iam_role.ghost_server.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
 
@@ -130,7 +90,7 @@ resource "aws_launch_template" "ghost_server" {
 
   vpc_security_group_ids = [aws_security_group.ghost_server.id]
 
-  key_name = "development" 
+  key_name = "" 
 
   tag_specifications {
     resource_type = "instance"
