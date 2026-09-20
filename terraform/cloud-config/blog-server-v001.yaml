@@ -40,7 +40,7 @@ runcmd:
       npx -y get-pnpm next-12
       source \"\$HOME/.bashrc\"
       ghost install local
-      ghost config url \"http://\$(ec2-metadata --public-ipv4 | awk '{print \$2}'):2368\"
+      ghost config url \"http://worksonmymachine.me:2368\"
       ghost config server.host 0.0.0.0
       ghost restart
     "
