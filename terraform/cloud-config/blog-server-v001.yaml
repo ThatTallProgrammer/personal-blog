@@ -34,13 +34,13 @@ runcmd:
   - mkdir -p $SITE_DIR
   - 'chown $GHOST_USER:$GHOST_USER $SITE_DIR'
   - chmod 775 $SITE_DIR
-  - |
-    su - "$GHOST_USER" -c "
-      cd '$SITE_DIR'
-      npx -y get-pnpm next-12
-      source \"\$HOME/.bashrc\"
-      ghost install local
-      ghost config url \"http://worksonmymachine.me:2368\"
-      ghost config server.host 0.0.0.0
-      ghost restart
-    "
+  # - |
+  #   su - "$GHOST_USER" -c "
+  #     cd '$SITE_DIR'
+  #     npx -y get-pnpm next-12
+  #     source \"\$HOME/.bashrc\"
+  #     ghost install local
+  #     ghost config url \"http://worksonmymachine.me:2368\"
+  #     ghost config server.host 0.0.0.0
+  #     ghost restart
+  #   "
