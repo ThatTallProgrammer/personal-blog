@@ -39,15 +39,6 @@ resource "aws_launch_template" "ghost_server" {
 }
 
 
-resource "aws_instance" "ghost_server" {
-  launch_template {
-    id = aws_launch_template.ghost_server.id
-    version = "$Latest"
-  }
-}
-
-
 resource "aws_eip" "ghost_server" {
-  instance = aws_instance.ghost_server.id
   domain   = "vpc"
 }

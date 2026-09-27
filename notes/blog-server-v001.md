@@ -13,7 +13,23 @@ This is a pet server configured by hand. This is intentional. The server will be
 
 ## Setup
 
+### Launching the instance
+
+- Launch EC2 using Launch Template
+- Associate EIP
+
+### DNS
+
+Route 53 entry for worksonmymachine.me that points to the EIP for the system. 
+
 ### Nginx
+
+Set up a proxy pass to 127.0.0.1:2368'
+```
+location /some/path/ {
+    proxy_pass http://127.0.0.1:2368;
+}
+```
 
 ### Ghost
 ```
@@ -36,4 +52,6 @@ Ghost provides installation automation for Nginx and MySQL. The Nginx setup does
 # References
 
 - [Production Ghost installation docs](https://docs.ghost.org/install/ubuntu/)
+- [Nginx Reverse Proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/)
+- [Nginx SSL Setup]()
 
