@@ -22,6 +22,15 @@ This is a pet server configured by hand. This is intentional. The server will be
 
 Route 53 entry for worksonmymachine.me that points to the EIP for the system. 
 
+### SSL
+
+SSL uses certbot to automatically configure an SSL certificate for Nginx. 
+
+Requires certbot and Nginx plugin.
+```
+certbot --nginx -d worksonmymachine.me
+```
+
 ### Nginx
 
 Set up a proxy pass to 127.0.0.1:2368'
@@ -40,7 +49,6 @@ ghost install
 Do not opt to autoconfigure Nginx
 
 ### MySQL
-
 
 ## Known Issues
 

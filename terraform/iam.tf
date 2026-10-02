@@ -4,7 +4,7 @@ resource "aws_iam_instance_profile" "ghost_server" {
 }
 
 
-data "aws_iam_policy_document" "assume_role" {
+data "aws_iam_policy_document" "assume_role_ec2" {
   statement {
     effect = "Allow"
 
@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "assume_role" {
 resource "aws_iam_role" "ghost_server" {
   name               = "ghost_server"
   path               = "/"
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+  assume_role_policy = data.aws_iam_policy_document.assume_role_ec2.json
 }
 
 
