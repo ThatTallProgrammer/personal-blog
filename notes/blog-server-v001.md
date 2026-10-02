@@ -17,6 +17,7 @@ This is a pet server configured by hand. This is intentional. The server will be
 
 - Launch EC2 using Launch Template
 - Associate EIP
+- Attache MySQL EBS
 
 ### DNS
 
@@ -50,6 +51,15 @@ Do not opt to autoconfigure Nginx
 
 ### MySQL
 
+MySQL data is stored on a secondary EBS volume. 
+
+### Disaster Recovery
+
+Lifecycle policy backing up the MySQL persistent EBS volume nightly. Three snapshots are retained. 
+
+AMI has been created with working configuration manually. 
+
+
 ## Known Issues
 
 ### Ghost assumes Ubuntu
@@ -62,4 +72,3 @@ Ghost provides installation automation for Nginx and MySQL. The Nginx setup does
 - [Production Ghost installation docs](https://docs.ghost.org/install/ubuntu/)
 - [Nginx Reverse Proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/)
 - [Nginx SSL Setup]()
-
