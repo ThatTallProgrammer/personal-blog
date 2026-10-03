@@ -59,6 +59,12 @@ Lifecycle policy backing up the MySQL persistent EBS volume nightly. Three snaps
 
 AMI has been created with working configuration manually. 
 
+### Security Thus Far
+
+- TLS via Let's Encrypt
+- Encrypted filesystems
+- Basic disaster recovery and backup strategy
+
 
 ## Known Issues
 
