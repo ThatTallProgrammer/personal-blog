@@ -1,12 +1,21 @@
 locals {
   availability_zone = "us-east-1a"
+  ami_id = "ami-0fa270f89a19f5546"
+}
+
+# TODO: Dynamically fetch latest AMI for Ghost 
+data "aws_ami" "ghost_server" {
+  filter {
+    name   = "image-id"
+    values = [local.ami_id]
+  }
 }
 
 
 resource "aws_launch_template" "ghost_server" {
   name = "ghost-server"
 
-  image_id = "ami-01576732ed072a93c" # TODO: Dynamically fetch latest AMI for Ghost 
+  image_id = data.aws_ami.ghost_server.id 
 
   instance_market_options {
     market_type = "on-demand"
@@ -31,6 +40,17 @@ resource "aws_launch_template" "ghost_server" {
   vpc_security_group_ids = [aws_security_group.ghost_server.id]
 
   key_name = "" 
+
+  block_device_mappings {
+    # Dynamically match the root device name
+    device_name = data.aws_ami.ghost_server.root_device_name
+
+    ebs {
+      volume_type           = "gp3"
+      delete_on_termination = true
+      encrypted             = true
+    }
+  }
 
   tag_specifications {
     resource_type = "instance"
