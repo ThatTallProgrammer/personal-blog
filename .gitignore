@@ -1,2 +1,4 @@
 workspace.json
 .structurizr
+.terraform*
+*tfstate*

@@ -1,0 +1,5 @@
+The blog-server-v001.yaml file can be used in an AWS launch template to install the dependencies and set up the file structure for Ghost. Past this point manual configuration will be required. 
+
+[Ghost Ubuntu Installation Instructions](https://docs.ghost.org/install/ubuntu/)
+
+Note that these instructions are for Ubuntu which is the only officially supported OS for Ghost. Our operational requirements specify that we need Amazon Linux. These instructions seem to work fine for AL2023.
