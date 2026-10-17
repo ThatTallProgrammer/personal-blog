@@ -1,6 +1,7 @@
 locals {
   availability_zone = "us-east-1a"
   ami_id = "ami-0fa270f89a19f5546"
+  prod_lt_version = "25"
 }
 
 # TODO: Dynamically fetch latest AMI for Ghost 
@@ -23,7 +24,7 @@ resource "aws_launch_template" "ghost_server" {
 
   instance_type = "t3.small"
 
-  update_default_version = true
+  update_default_version = false
 
   monitoring {
     enabled = true
@@ -69,7 +70,7 @@ resource "aws_instance" "ghost_server" {
   
   launch_template {
     id      = aws_launch_template.ghost_server.id
-    version = aws_launch_template.ghost_server.default_version
+    version = local.prod_lt_version
   }
 
   # Terraform tries to set fields from LT to null on update
